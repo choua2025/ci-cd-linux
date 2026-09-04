@@ -96,4 +96,6 @@ jobs:
         env:
           PORT: "3030"
           COMPOSE_PROJECT_NAME: ci-cd-linux
-        run: ./scripts/deploy.sh
+        # Invoked via bash so the job cannot break if the exec bit is ever
+        # lost again (e.g. a file added from a filesystem without one).
+        run: bash ./scripts/deploy.sh
