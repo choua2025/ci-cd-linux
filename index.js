@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3030;
 
 app.get('/', (req, res) => {
-  res.type('text/plain').send('ci-cd-linux is running 3030🚀');
+  res.type('text/plain').send('ci-cd-linux is running 3030🚀 healthy');
 });
 
 app.get('/hello', (req, res) => {
