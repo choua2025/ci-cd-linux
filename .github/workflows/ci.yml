@@ -78,3 +78,22 @@ jobs:
           done
           test "$(curl -fsS http://localhost:3030/hello)" = "Hello world"
           docker rm -f smoke
+
+  deploy:
+    name: Deploy to local Ubuntu
+    # Runs on the self-hosted runner inside WSL, so no inbound access,
+    # SSH key or password is involved — the runner reaches out to GitHub.
+    runs-on: [self-hosted, linux, wsl-ubuntu]
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    concurrency:
+      group: deploy-local
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Deploy
+        env:
+          PORT: "3030"
+          COMPOSE_PROJECT_NAME: ci-cd-linux
+        run: ./scripts/deploy.sh
